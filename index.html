@@ -1,0 +1,21 @@
+<!doctype html>
+  <body>
+    <div></div>
+    <script src="elm.js"></script>
+
+    <script>
+      app = Elm.Main.fullscreen();
+      ww = Elm.WebWorker.worker();
+
+      //send data from WebWorker elm program to Main elm program
+      ww.ports.sendResult.subscribe(function (result) {
+          app.ports.receiveResult.send(result);
+      });
+
+      // send data from Main elm program to WebWorker elm program
+      app.ports.sendData.subscribe(function(numbers) {
+        ww.ports.receiveInput.send(numbers);
+      });
+
+    </script>
+  </body>
